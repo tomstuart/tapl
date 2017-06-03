@@ -46,6 +46,9 @@ module Term
 
   def self.desugar(term)
     case term
+    when Abstraction
+      raise "can’t desugar #{term}" unless term.parameter_name == WILDCARD
+      Abstraction.new(fresh_name(term.body), term.parameter_type, term.body)
     when Sequence
       Application.new(Abstraction.new(fresh_name(term.second), Type::Unit, term.second), term.first)
     else

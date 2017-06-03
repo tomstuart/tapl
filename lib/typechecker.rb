@@ -7,8 +7,11 @@ module Typechecker
   def self.type_of(term, context)
     case term
     when Term::Abstraction
-      context = context.extend(term.parameter_name, term.parameter_type) unless term.parameter_name == Term::WILDCARD
-      Type::Function.new(term.parameter_type, type_of(term.body, context))
+      if term.parameter_name == Term::WILDCARD
+        type_of(Term.desugar(term), context)
+      else
+        Type::Function.new(term.parameter_type, type_of(term.body, context.extend(term.parameter_name, term.parameter_type)))
+      end
     when Term::Application
       function_type = type_of(term.left, context)
       argument_type = type_of(term.right, context)
