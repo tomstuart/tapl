@@ -37,6 +37,9 @@ module Typechecker
       term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a natural number" unless term_type == Type::NaturalNumber
       Type::NaturalNumber
+    when Term::Let
+      definition_type = type_of(term.definition_term, context)
+      type_of(term.body, context.extend(term.definition_name, definition_type))
     when Term::Sequence
       type_of(Term.desugar(term), context)
     when Term::Unit

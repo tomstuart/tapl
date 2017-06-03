@@ -132,4 +132,14 @@ RSpec.describe 'typechecking' do
       expect('true as Unit').not_to typecheck
     end
   end
+
+  describe 'let' do
+    example do
+      expect('let f = λx:Bool.x in f true').to typecheck.as('Bool')
+    end
+
+    example do
+      expect('let f = true in f true').not_to typecheck
+    end
+  end
 end
