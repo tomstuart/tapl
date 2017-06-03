@@ -38,4 +38,22 @@ RSpec.describe 'typechecking' do
       expect('iszero (iszero 0)').not_to typecheck
     end
   end
+
+  describe 'conditionals' do
+    example do
+      expect('if false then true else false').to typecheck.as('Bool')
+    end
+
+    example do
+      expect('if true then 0 else succ 0').to typecheck.as('Nat')
+    end
+
+    example do
+      expect('if pred 0 then true else false').not_to typecheck
+    end
+
+    example do
+      expect('if true then 0 else false').not_to typecheck
+    end
+  end
 end
