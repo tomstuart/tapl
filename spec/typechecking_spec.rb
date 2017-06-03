@@ -116,4 +116,10 @@ RSpec.describe 'typechecking' do
       expect('true; unit').not_to typecheck
     end
   end
+
+  describe 'wildcards' do
+    example do
+      expect('λ_:Bool._').to typecheck.as('Bool → Unit').in(_: 'Unit')
+    end
+  end
 end
