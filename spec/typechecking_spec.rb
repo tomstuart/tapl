@@ -56,4 +56,14 @@ RSpec.describe 'typechecking' do
       expect('if true then 0 else false').not_to typecheck
     end
   end
+
+  describe 'variables' do
+    example do
+      expect('x').to typecheck.as('Bool').in(x: 'Bool')
+    end
+
+    example do
+      expect('x').not_to typecheck
+    end
+  end
 end

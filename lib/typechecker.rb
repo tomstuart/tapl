@@ -4,25 +4,29 @@ require 'type'
 module Typechecker
   Error = Class.new(StandardError)
 
-  def self.type_of(term)
+  def self.type_of(term, context)
     case term
     when Term::False, Term::True
       Type::Boolean
     when Term::If
-      condition_type = type_of(term.condition)
-      consequent_type = type_of(term.consequent)
-      alternative_type = type_of(term.alternative)
+      condition_type = type_of(term.condition, context)
+      consequent_type = type_of(term.consequent, context)
+      alternative_type = type_of(term.alternative, context)
       raise Error, "#{term.condition} isn’t a boolean" unless condition_type == Type::Boolean
       raise Error, "#{term.consequent} and #{term.alternative} have mismatching types" unless consequent_type == alternative_type
       consequent_type
     when Term::IsZero
-      term_type = type_of(term.term)
+      term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a natural number" unless term_type == Type::NaturalNumber
       Type::Boolean
     when Term::Pred, Term::Succ
-      term_type = type_of(term.term)
+      term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a natural number" unless term_type == Type::NaturalNumber
       Type::NaturalNumber
+    when Term::Variable
+      type = context.lookup(term.name)
+      raise Error, "unknown variable #{term.name}" if type.nil?
+      type
     when Term::Zero
       Type::NaturalNumber
     else
