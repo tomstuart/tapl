@@ -19,9 +19,7 @@ module Typechecker
       raise Error, "#{term.right} isn’t a #{function_type.input}" unless argument_type == function_type.input
       function_type.output
     when Term::Ascription
-      actual_type = type_of(term.term, context)
-      raise Error, "#{term} isn’t a #{term.type}" unless actual_type == term.type
-      term.type
+      type_of(Term.desugar(term), context)
     when Term::False, Term::True
       Type::Boolean
     when Term::If
