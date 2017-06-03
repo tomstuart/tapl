@@ -20,6 +20,13 @@ module Typechecker
       function_type.output
     when Term::Ascription
       type_of(Term.desugar(term), context)
+    when Term::Case
+      sum_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a sum" unless sum_type.is_a?(Type::Sum)
+      left_type = type_of(term.left_term, context.extend(term.left_name, sum_type.left))
+      right_type = type_of(term.right_term, context.extend(term.right_name, sum_type.right))
+      raise Error, "#{term.left_term} and #{term.right_term} have mismatching types" unless left_type == right_type
+      left_type
     when Term::False, Term::True
       Type::Boolean
     when Term::If
@@ -29,6 +36,18 @@ module Typechecker
       raise Error, "#{term.condition} isn’t a boolean" unless condition_type == Type::Boolean
       raise Error, "#{term.consequent} and #{term.alternative} have mismatching types" unless consequent_type == alternative_type
       consequent_type
+    when Term::InLeft, Term::InRight
+      raise Error, "#{term.type} isn’t a sum type" unless term.type.is_a?(Type::Sum)
+      term_type = type_of(term.term, context)
+      expected_type =
+        case term
+        when Term::InLeft
+          term.type.left
+        when Term::InRight
+          term.type.right
+        end
+      raise Error, "#{term.term} isn’t a #{expected_type}" unless term_type == expected_type
+      term.type
     when Term::IsZero
       term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a natural number" unless term_type == Type::NaturalNumber

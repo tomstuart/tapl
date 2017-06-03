@@ -216,4 +216,38 @@ RSpec.describe 'typechecking' do
       end
     end
   end
+
+  describe 'sums' do
+    describe 'introduction' do
+      example do
+        expect('inl true as Bool + Unit').to typecheck.as('Bool + Unit')
+      end
+
+      example do
+        expect('inr unit as Bool + Unit').to typecheck.as('Bool + Unit')
+      end
+
+      example do
+        expect('inl unit as Bool + Unit').not_to typecheck
+      end
+
+      example do
+        expect('inl true as Bool').not_to typecheck
+      end
+    end
+
+    describe 'elimination' do
+      example do
+        expect('case inl true as Bool + Unit of inl x ⇒ x | inr y ⇒ y; false').to typecheck.as('Bool')
+      end
+
+      example do
+        expect('case inl true as Bool + Unit of inl x ⇒ x | inr y ⇒ λz:Bool.y').not_to typecheck
+      end
+
+      example do
+        expect('case true of inl x ⇒ x | inr y ⇒ y; false').not_to typecheck
+      end
+    end
+  end
 end
