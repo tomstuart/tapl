@@ -96,4 +96,38 @@ RSpec.describe 'parsing' do
       expect('(Bool → Nat) → Bool').to parse.as func(func(bool, nat), bool)
     end
   end
+
+  describe 'abstractions and applications' do
+    example do
+      expect('f (if false then true else false)').to parse.as app(var(:f), cond(fls, tru, fls))
+    end
+
+    example do
+      expect('λx:Bool.f (if x then false else x)').to parse.as abs(:x, bool, app(var(:f), cond(var(:x), fls, var(:x))))
+    end
+
+    example do
+      expect('if x then true else false').to parse.as cond(var(:x), tru, fls)
+    end
+
+    example do
+      expect('if true then x else y').to parse.as cond(tru, var(:x), var(:y))
+    end
+
+    example do
+      expect('λx:Bool.x').to parse.as abs(:x, bool, var(:x))
+    end
+
+    example do
+      expect('(λx:Bool.x) true').to parse.as app(abs(:x, bool, var(:x)), tru)
+    end
+
+    example do
+      expect('true true').to parse.as app(tru, tru)
+    end
+
+    example do
+      expect('(λx:Bool.x) λx:Bool.x').to parse.as app(abs(:x, bool, var(:x)), abs(:x, bool, var(:x)))
+    end
+  end
 end

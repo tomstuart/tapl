@@ -30,6 +30,14 @@ class Builder
     Term::Variable.new(name)
   end
 
+  def build_abstraction(parameter_name, parameter_type, body)
+    Term::Abstraction.new(parameter_name, parameter_type, body)
+  end
+
+  def build_application(left, right)
+    Term::Application.new(left, right)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

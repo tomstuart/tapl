@@ -1,6 +1,14 @@
 require 'builder'
 
 module TermHelpers
+  def abs(parameter_name, parameter_type, body)
+    Builder.new.build_abstraction(parameter_name.to_s, parameter_type, body)
+  end
+
+  def app(left, right)
+    Builder.new.build_application(left, right)
+  end
+
   def cond(condition, consequent, alternative)
     Builder.new.build_if(condition, consequent, alternative)
   end
