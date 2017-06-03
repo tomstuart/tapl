@@ -46,17 +46,28 @@ module Typechecker
       Type::Product.new(first_type, second_type)
     when Term::Projection
       type = type_of(term.term, context)
-      raise Error, "can’t project from a #{type}" unless type.is_a?(Type::Product)
-      index = Integer(term.index)
-      raise Error, 'index out of bounds' unless (1..2).include?(index)
-      case index
-      when 1
-        type.first
-      when 2
-        type.second
+      case type
+      when Type::Product
+        index = Integer(term.index)
+        raise Error, 'index out of bounds' unless (1..2).include?(index)
+        case index
+        when 1
+          type.first
+        when 2
+          type.second
+        end
+      when Type::Tuple
+        index = Integer(term.index)
+        raise Error, 'index out of bounds' unless (1..type.types.length).include?(index)
+        type.types[index.pred]
+      else
+        raise Error, "can’t project from a #{type}"
       end
     when Term::Sequence
       type_of(Term.desugar(term), context)
+    when Term::Tuple
+      types = term.terms.map { |term| type_of(term, context) }
+      Type::Tuple.new(types)
     when Term::Unit
       Type::Unit
     when Term::Variable

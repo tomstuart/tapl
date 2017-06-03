@@ -164,4 +164,30 @@ RSpec.describe 'typechecking' do
       end
     end
   end
+
+  describe 'tuples' do
+    describe 'introduction' do
+      example do
+        expect('{unit, true, λx:Bool.unit}').to typecheck.as('{Unit, Bool, Bool → Unit}')
+      end
+    end
+
+    describe 'elimination' do
+      example do
+        expect('{unit, true, λx:Bool.unit}.3').to typecheck.as('Bool → Unit')
+      end
+
+      example do
+        expect('{unit, true, λx:Bool.unit}.0').not_to typecheck
+      end
+
+      example do
+        expect('{unit, true, λx:Bool.unit}.4').not_to typecheck
+      end
+
+      example do
+        expect('(λx:Bool.x).1').not_to typecheck
+      end
+    end
+  end
 end
