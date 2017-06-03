@@ -106,4 +106,14 @@ RSpec.describe 'typechecking' do
       expect('λx:Bool.unit').to typecheck.as('Bool → Unit')
     end
   end
+
+  describe 'sequences' do
+    example do
+      expect('unit; true').to typecheck.as('Bool')
+    end
+
+    example do
+      expect('true; unit').not_to typecheck
+    end
+  end
 end
