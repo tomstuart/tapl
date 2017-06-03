@@ -40,6 +40,21 @@ module Typechecker
     when Term::Let
       definition_type = type_of(term.definition_term, context)
       type_of(term.body, context.extend(term.definition_name, definition_type))
+    when Term::Pair
+      first_type = type_of(term.first, context)
+      second_type = type_of(term.second, context)
+      Type::Product.new(first_type, second_type)
+    when Term::Projection
+      type = type_of(term.term, context)
+      raise Error, "can’t project from a #{type}" unless type.is_a?(Type::Product)
+      index = Integer(term.index)
+      raise Error, 'index out of bounds' unless (1..2).include?(index)
+      case index
+      when 1
+        type.first
+      when 2
+        type.second
+      end
     when Term::Sequence
       type_of(Term.desugar(term), context)
     when Term::Unit

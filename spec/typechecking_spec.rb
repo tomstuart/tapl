@@ -142,4 +142,26 @@ RSpec.describe 'typechecking' do
       expect('let f = true in f true').not_to typecheck
     end
   end
+
+  describe 'pairs' do
+    describe 'introduction' do
+      example do
+        expect('{true, λx:Bool.x}').to typecheck.as('Bool × (Bool → Bool)')
+      end
+    end
+
+    describe 'elimination' do
+      example do
+        expect('{true, λx:Bool.x}.1').to typecheck.as('Bool')
+      end
+
+      example do
+        expect('{true, λx:Bool.x}.2').to typecheck.as('Bool → Bool')
+      end
+
+      example do
+        expect('(λx:Bool.x).2').not_to typecheck
+      end
+    end
+  end
 end
