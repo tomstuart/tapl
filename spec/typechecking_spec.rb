@@ -122,4 +122,14 @@ RSpec.describe 'typechecking' do
       expect('λ_:Bool._').to typecheck.as('Bool → Unit').in(_: 'Unit')
     end
   end
+
+  describe 'ascriptions' do
+    example do
+      expect('true as Bool').to typecheck.as('Bool')
+    end
+
+    example do
+      expect('true as Unit').not_to typecheck
+    end
+  end
 end
