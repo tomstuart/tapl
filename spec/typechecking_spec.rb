@@ -49,11 +49,27 @@ RSpec.describe 'typechecking' do
     end
 
     example do
+      expect('f (if false then true else false)').to typecheck.as('Bool').in(f: 'Bool → Bool')
+    end
+
+    example do
+      expect('λx:Bool.f (if x then false else x)').to typecheck.as('Bool → Bool').in(f: 'Bool → Bool')
+    end
+
+    example do
       expect('if pred 0 then true else false').not_to typecheck
     end
 
     example do
       expect('if true then 0 else false').not_to typecheck
+    end
+
+    example do
+      expect('if x then true else false').not_to typecheck.in(x: 'Bool → Bool')
+    end
+
+    example do
+      expect('if true then x else y').not_to typecheck.in(x: 'Bool', y: 'Bool → Bool')
     end
   end
 
@@ -64,6 +80,24 @@ RSpec.describe 'typechecking' do
 
     example do
       expect('x').not_to typecheck
+    end
+  end
+
+  describe 'abstractions and applications' do
+    example do
+      expect('λx:Bool.x').to typecheck.as('Bool → Bool')
+    end
+
+    example do
+      expect('(λx:Bool.x) true').to typecheck.as('Bool')
+    end
+
+    example do
+      expect('true true').not_to typecheck
+    end
+
+    example do
+      expect('(λx:Bool.x) λx:Bool.x').not_to typecheck
     end
   end
 end

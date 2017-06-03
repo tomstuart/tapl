@@ -6,6 +6,14 @@ module Typechecker
 
   def self.type_of(term, context)
     case term
+    when Term::Abstraction
+      Type::Function.new(term.parameter_type, type_of(term.body, context.extend(term.parameter_name, term.parameter_type)))
+    when Term::Application
+      function_type = type_of(term.left, context)
+      argument_type = type_of(term.right, context)
+      raise Error, "#{term.left} isn’t a function" unless function_type.is_a?(Type::Function)
+      raise Error, "#{term.right} isn’t a #{function_type.input}" unless argument_type == function_type.input
+      function_type.output
     when Term::False, Term::True
       Type::Boolean
     when Term::If
