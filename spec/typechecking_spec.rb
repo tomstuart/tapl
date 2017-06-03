@@ -190,4 +190,30 @@ RSpec.describe 'typechecking' do
       end
     end
   end
+
+  describe 'records' do
+    describe 'introduction' do
+      example do
+        expect('{x=false, y=λx:Bool.true, z=unit}').to typecheck.as('{x:Bool, y:Bool → Bool, z:Unit}')
+      end
+
+      example do
+        expect('{x=false, y=λx:Bool.true, x=unit}').not_to typecheck
+      end
+    end
+
+    describe 'elimination' do
+      example do
+        expect('{x=false, y=λx:Bool.true, z=unit}.y').to typecheck.as('Bool → Bool')
+      end
+
+      example do
+        expect('{x=false, y=λx:Bool.true, z=unit}.w').not_to typecheck
+      end
+
+      example do
+        expect('true.x').not_to typecheck
+      end
+    end
+  end
 end

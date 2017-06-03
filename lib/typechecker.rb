@@ -60,9 +60,20 @@ module Typechecker
         index = Integer(term.index)
         raise Error, 'index out of bounds' unless (1..type.types.length).include?(index)
         type.types[index.pred]
+      when Type::Record
+        field = type.field(term.index)
+        raise Error, 'label not found' if field.nil?
+        field.type
       else
         raise Error, "can’t project from a #{type}"
       end
+    when Term::Record
+      labels = term.fields.map(&:label)
+      raise Error, 'duplicate label' unless labels.uniq.length == labels.length
+      fields = term.fields.map { |field|
+        Type::Record::Field.new(field.label, type_of(field.term, context))
+      }
+      Type::Record.new(fields)
     when Term::Sequence
       type_of(Term.desugar(term), context)
     when Term::Tuple
