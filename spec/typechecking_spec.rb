@@ -314,4 +314,10 @@ RSpec.describe 'typechecking' do
       expect('fix λx:Nat.iszero x').not_to typecheck
     end
   end
+
+  describe 'letrec' do
+    example do
+      expect('letrec iseven:Nat → Bool = λx:Nat.if iszero x then true else if iszero (pred x) then false else iseven (pred (pred x)) in iseven (succ (succ (succ 0)))').to typecheck.as('Bool')
+    end
+  end
 end

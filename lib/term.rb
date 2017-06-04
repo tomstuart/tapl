@@ -67,6 +67,8 @@ module Term
     when Ascription
       name = fresh_name(term.term)
       Application.new(Abstraction.new(name, term.type, Variable.new(name)), term.term)
+    when LetRec
+      Let.new(term.definition_name, Fix.new(Abstraction.new(term.definition_name, term.definition_type, term.definition_term)), term.body)
     when Sequence
       Application.new(Abstraction.new(fresh_name(term.second), Type::Unit, term.second), term.first)
     else

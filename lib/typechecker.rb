@@ -64,6 +64,8 @@ module Typechecker
     when Term::Let
       definition_type = type_of(term.definition_term, context)
       type_of(term.body, context.extend(term.definition_name, definition_type))
+    when Term::LetRec
+      type_of(Term.desugar(term), context)
     when Term::Pair
       first_type = type_of(term.first, context)
       second_type = type_of(term.second, context)
