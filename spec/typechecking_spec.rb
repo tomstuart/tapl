@@ -296,4 +296,22 @@ RSpec.describe 'typechecking' do
       end
     end
   end
+
+  describe 'fix' do
+    example do
+      expect('fix λie:Nat → Bool.λx:Nat.if iszero x then true else if iszero (pred x) then false else ie (pred (pred x))').to typecheck.as('Nat → Bool')
+    end
+
+    example do
+      expect('fix λieio:{iseven:Nat → Bool, isodd:Nat → Bool}.{iseven=λx:Nat.if iszero x then true else ieio.isodd (pred x), isodd=λx:Nat.if iszero x then false else ieio.iseven (pred x)}').to typecheck.as('{iseven: Nat → Bool, isodd: Nat → Bool}')
+    end
+
+    example do
+      expect('fix iszero (succ 0)').not_to typecheck
+    end
+
+    example do
+      expect('fix λx:Nat.iszero x').not_to typecheck
+    end
+  end
 end

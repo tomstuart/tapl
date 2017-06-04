@@ -29,6 +29,11 @@ module Typechecker
       left_type
     when Term::False, Term::True
       Type::Boolean
+    when Term::Fix
+      function_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a function" unless function_type.is_a?(Type::Function)
+      raise Error, "#{term.term} has mismatched input and output types" unless function_type.input == function_type.output
+      function_type.input
     when Term::If
       condition_type = type_of(term.condition, context)
       consequent_type = type_of(term.consequent, context)
