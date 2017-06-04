@@ -100,4 +100,10 @@ RSpec.describe 'typechecking' do
       expect('(λx:Bool.x) λx:Bool.x').not_to typecheck
     end
   end
+
+  describe 'unit' do
+    example do
+      expect('λx:Bool.unit').to typecheck.as('Bool → Unit')
+    end
+  end
 end

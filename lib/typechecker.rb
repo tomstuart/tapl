@@ -31,6 +31,8 @@ module Typechecker
       term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a natural number" unless term_type == Type::NaturalNumber
       Type::NaturalNumber
+    when Term::Unit
+      Type::Unit
     when Term::Variable
       type = context.lookup(term.name)
       raise Error, "unknown variable #{term.name}" if type.nil?
