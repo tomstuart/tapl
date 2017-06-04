@@ -95,6 +95,14 @@ module Typechecker
       Type::Record.new(fields)
     when Term::Sequence
       type_of(Term.desugar(term), context)
+    when Term::Tagging
+      variant_type = term.type
+      raise Error, "#{variant_type} isn’t a variant type" unless variant_type.is_a?(Type::Variant)
+      field = variant_type.field(term.label)
+      raise Error, 'label not found' if field.nil?
+      term_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a #{field.type}" unless term_type == field.type
+      term.type
     when Term::Tuple
       types = term.terms.map { |term| type_of(term, context) }
       Type::Tuple.new(types)
@@ -104,6 +112,22 @@ module Typechecker
       type = context.lookup(term.name)
       raise Error, "unknown variable #{term.name}" if type.nil?
       type
+    when Term::VariantCase
+      variant_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a variant" unless variant_type.is_a?(Type::Variant)
+      type_labels = variant_type.fields.map(&:label)
+      case_labels = term.cases.map(&:label)
+      missing_labels = type_labels - case_labels
+      unknown_labels = case_labels - type_labels
+      raise Error, 'missing label' unless missing_labels.empty?
+      raise Error, 'unknown label' unless unknown_labels.empty?
+      raise Error, 'duplicate label' unless case_labels.length == type_labels.length
+      case_types = term.cases.map { |kase|
+        field = variant_type.field(kase.label)
+        type_of(kase.term, context.extend(kase.name, field.type))
+      }
+      raise Error, 'cases have mismatching types' unless case_types.uniq.length == 1
+      case_types.first
     when Term::Zero
       Type::NaturalNumber
     else

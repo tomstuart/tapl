@@ -250,4 +250,50 @@ RSpec.describe 'typechecking' do
       end
     end
   end
+
+  describe 'variants' do
+    describe 'introduction' do
+      example do
+        expect('<some=true> as <none: Unit, some: Bool>').to typecheck.as('<none: Unit, some: Bool>')
+      end
+
+      example do
+        expect('<some=unit> as <none: Unit, some: Bool>').not_to typecheck
+      end
+
+      example do
+        expect('<many=false> as <none: Unit, some: Bool>').not_to typecheck
+      end
+
+      example do
+        expect('<some=true> as Unit × Bool').not_to typecheck
+      end
+    end
+
+    describe 'elimination' do
+      example do
+        expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ false | <some=y> ⇒ y').to typecheck.as('Bool')
+      end
+
+      example do
+        expect('case true of <none=x> ⇒ false | <some=y> ⇒ y').not_to typecheck
+      end
+
+      example do
+        expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ false | <some=y> ⇒ y | <many=z> ⇒ true').not_to typecheck
+      end
+
+      example do
+        expect('case <some=true> as <none:Unit, some:Bool> of <some=y> ⇒ y').not_to typecheck
+      end
+
+      example do
+        expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ false | <some=y> ⇒ y | <some=z> ⇒ z').not_to typecheck
+      end
+
+      example do
+        expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ x | <some=y> ⇒ y').not_to typecheck
+      end
+    end
+  end
 end
