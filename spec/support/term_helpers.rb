@@ -33,6 +33,10 @@ module TermHelpers
     Builder.new.build_boolean(true)
   end
 
+  def unit
+    Builder.new.build_unit
+  end
+
   def var(name)
     Builder.new.build_variable(name.to_s)
   end

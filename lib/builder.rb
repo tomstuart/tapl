@@ -38,6 +38,10 @@ class Builder
     Term::Application.new(left, right)
   end
 
+  def build_unit
+    Term::Unit
+  end
+
   def build_type_boolean
     Type::Boolean
   end

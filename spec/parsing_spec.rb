@@ -135,5 +135,9 @@ RSpec.describe 'parsing' do
     example do
       expect('Bool → Unit').to parse.as func(bool, void)
     end
+
+    example do
+      expect('λx:Bool.unit').to parse.as abs(:x, bool, unit)
+    end
   end
 end

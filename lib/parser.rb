@@ -59,6 +59,8 @@ class Parser
       parse_is_zero
     elsif can_read? %r{if}
       parse_if
+    elsif can_read? %r{unit}
+      parse_unit
     elsif can_read? %r{[a-z]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
@@ -118,6 +120,12 @@ class Parser
     alternative = parse_term
 
     builder.build_if(condition, consequent, alternative)
+  end
+
+  def parse_unit
+    read %r{unit}
+
+    builder.build_unit
   end
 
   def parse_variable
