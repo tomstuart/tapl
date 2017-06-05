@@ -31,13 +31,24 @@ class Parser
   end
 
   def parse_term
-    parse_applications
+    parse_sequence
+  end
+
+  def parse_sequence
+    term = parse_applications
+
+    if can_read? %r{;}
+      read %r{;}
+      builder.build_sequence(term, parse_sequence)
+    else
+      term
+    end
   end
 
   def parse_applications
     term = parse_term_in_application
 
-    until can_read? %r{\)|then|else|\z} do
+    until can_read? %r{\)|then|else|;|\z} do
       term = builder.build_application(term, parse_term_in_application)
     end
 

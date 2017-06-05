@@ -25,6 +25,10 @@ module TermHelpers
     Builder.new.build_pred(term)
   end
 
+  def seq(first, second)
+    Builder.new.build_sequence(first, second)
+  end
+
   def succ(term)
     Builder.new.build_succ(term)
   end

@@ -140,4 +140,14 @@ RSpec.describe 'parsing' do
       expect('λx:Bool.unit').to parse.as abs(:x, bool, unit)
     end
   end
+
+  describe 'sequences' do
+    example do
+      expect('unit; true').to parse.as seq(unit, tru)
+    end
+
+    example do
+      expect('true; unit').to parse.as seq(tru, unit)
+    end
+  end
 end

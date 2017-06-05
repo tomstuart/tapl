@@ -42,6 +42,10 @@ class Builder
     Term::Unit
   end
 
+  def build_sequence(first, second)
+    Term::Sequence.new(first, second)
+  end
+
   def build_type_boolean
     Type::Boolean
   end
