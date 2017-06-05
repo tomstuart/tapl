@@ -159,6 +159,8 @@ class Parser
       parse_type_boolean
     elsif can_read? %r{Nat}
       parse_type_natural_number
+    elsif can_read? %r{Unit}
+      parse_type_unit
     else
       complain
     end
@@ -182,6 +184,12 @@ class Parser
     read %r{\)}
 
     type
+  end
+
+  def parse_type_unit
+    read %r{Unit}
+
+    builder.build_type_unit
   end
 
   def read_name

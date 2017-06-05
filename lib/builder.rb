@@ -49,4 +49,8 @@ class Builder
   def build_type_function(input, output)
     Type::Function.new(input, output)
   end
+
+  def build_type_unit
+    Type::Unit
+  end
 end

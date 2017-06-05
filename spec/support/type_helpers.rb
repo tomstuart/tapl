@@ -12,4 +12,8 @@ module TypeHelpers
   def nat
     Builder.new.build_type_natural_number
   end
+
+  def void
+    Builder.new.build_type_unit
+  end
 end

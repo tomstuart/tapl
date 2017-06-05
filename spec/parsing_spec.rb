@@ -130,4 +130,10 @@ RSpec.describe 'parsing' do
       expect('(λx:Bool.x) λx:Bool.x').to parse.as app(abs(:x, bool, var(:x)), abs(:x, bool, var(:x)))
     end
   end
+
+  describe 'unit' do
+    example do
+      expect('Bool → Unit').to parse.as func(bool, void)
+    end
+  end
 end
