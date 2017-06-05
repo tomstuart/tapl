@@ -76,4 +76,10 @@ RSpec.describe 'parsing' do
       expect('if true then 0 else false').to parse.as cond(tru, zero, fls)
     end
   end
+
+  describe 'variables' do
+    example do
+      expect('x').to parse.as var(:x)
+    end
+  end
 end

@@ -25,6 +25,10 @@ module TermHelpers
     Builder.new.build_boolean(true)
   end
 
+  def var(name)
+    Builder.new.build_variable(name.to_s)
+  end
+
   def zero
     Builder.new.build_zero
   end

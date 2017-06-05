@@ -5,5 +5,6 @@ module Term
   Pred = Struct.new(:term)
   Succ = Struct.new(:term)
   True = Object.new
+  Variable = Struct.new(:name)
   Zero = Object.new
 end

@@ -26,6 +26,10 @@ class Builder
     Term::If.new(condition, consequent, alternative)
   end
 
+  def build_variable(name)
+    Term::Variable.new(name)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

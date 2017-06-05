@@ -45,6 +45,8 @@ class Parser
       parse_is_zero
     elsif can_read? %r{if}
       parse_if
+    elsif can_read? %r{[a-z]+}
+      parse_variable
     else
       complain
     end
@@ -102,6 +104,12 @@ class Parser
     builder.build_if(condition, consequent, alternative)
   end
 
+  def parse_variable
+    name = read_name
+
+    builder.build_variable(name)
+  end
+
   def parse_type
     if can_read? %r{Bool}
       parse_type_boolean
@@ -122,6 +130,10 @@ class Parser
     read %r{Nat}
 
     builder.build_type_natural_number
+  end
+
+  def read_name
+    read %r{[a-z]+}
   end
 
   def can_read?(pattern)
