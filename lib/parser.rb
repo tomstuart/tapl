@@ -35,7 +35,17 @@ class Parser
   end
 
   def parse_type
-    complain
+    if can_read? %r{Bool}
+      parse_type_boolean
+    else
+      complain
+    end
+  end
+
+  def parse_type_boolean
+    read %r{Bool}
+
+    builder.build_type_boolean
   end
 
   def can_read?(pattern)

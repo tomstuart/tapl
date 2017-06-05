@@ -8,4 +8,10 @@ RSpec.describe 'parsing' do
   include ParsingMatchers
   include TermHelpers
   include TypeHelpers
+
+  describe 'booleans' do
+    example do
+      expect('Bool').to parse.as bool
+    end
+  end
 end
