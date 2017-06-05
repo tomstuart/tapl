@@ -13,5 +13,13 @@ RSpec.describe 'parsing' do
     example do
       expect('Bool').to parse.as bool
     end
+
+    example do
+      expect('true').to parse.as tru
+    end
+
+    example do
+      expect('false').to parse.as fls
+    end
   end
 end

@@ -31,7 +31,17 @@ class Parser
   end
 
   def parse_term
-    complain
+    if can_read? %r{true|false}
+      parse_boolean
+    else
+      complain
+    end
+  end
+
+  def parse_boolean
+    value = read %r{true|false}
+
+    builder.build_boolean(value == 'true')
   end
 
   def parse_type
