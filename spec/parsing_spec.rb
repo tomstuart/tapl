@@ -82,4 +82,18 @@ RSpec.describe 'parsing' do
       expect('x').to parse.as var(:x)
     end
   end
+
+  describe 'functions' do
+    example do
+      expect('Bool → Bool').to parse.as func(bool, bool)
+    end
+
+    example do
+      expect('Bool → Nat → Bool').to parse.as func(bool, func(nat, bool))
+    end
+
+    example do
+      expect('(Bool → Nat) → Bool').to parse.as func(func(bool, nat), bool)
+    end
+  end
 end

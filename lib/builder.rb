@@ -37,4 +37,8 @@ class Builder
   def build_type_natural_number
     Type::NaturalNumber
   end
+
+  def build_type_function(input, output)
+    Type::Function.new(input, output)
+  end
 end

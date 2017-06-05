@@ -111,7 +111,24 @@ class Parser
   end
 
   def parse_type
-    if can_read? %r{Bool}
+    parse_type_functions
+  end
+
+  def parse_type_functions
+    type = parse_type_in_function
+
+    if can_read? %r{→}
+      read %r{→}
+      builder.build_type_function(type, parse_type_functions)
+    else
+      type
+    end
+  end
+
+  def parse_type_in_function
+    if can_read? %r{\(}
+      parse_type_brackets
+    elsif can_read? %r{Bool}
       parse_type_boolean
     elsif can_read? %r{Nat}
       parse_type_natural_number
@@ -130,6 +147,14 @@ class Parser
     read %r{Nat}
 
     builder.build_type_natural_number
+  end
+
+  def parse_type_brackets
+    read %r{\(}
+    type = parse_type
+    read %r{\)}
+
+    type
   end
 
   def read_name
