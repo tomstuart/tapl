@@ -43,6 +43,8 @@ class Parser
       parse_succ
     elsif can_read? %r{iszero}
       parse_is_zero
+    elsif can_read? %r{if}
+      parse_if
     else
       complain
     end
@@ -87,6 +89,17 @@ class Parser
     term = parse_term
 
     builder.build_is_zero(term)
+  end
+
+  def parse_if
+    read %r{if}
+    condition = parse_term
+    read %r{then}
+    consequent = parse_term
+    read %r{else}
+    alternative = parse_term
+
+    builder.build_if(condition, consequent, alternative)
   end
 
   def parse_type

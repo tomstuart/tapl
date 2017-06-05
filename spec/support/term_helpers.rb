@@ -1,6 +1,10 @@
 require 'builder'
 
 module TermHelpers
+  def cond(condition, consequent, alternative)
+    Builder.new.build_if(condition, consequent, alternative)
+  end
+
   def fls
     Builder.new.build_boolean(false)
   end

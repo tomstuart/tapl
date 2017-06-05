@@ -22,6 +22,10 @@ class Builder
     Term::IsZero.new(term)
   end
 
+  def build_if(condition, consequent, alternative)
+    Term::If.new(condition, consequent, alternative)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

@@ -58,4 +58,22 @@ RSpec.describe 'parsing' do
       expect('Nat').to parse.as nat
     end
   end
+
+  describe 'conditionals' do
+    example do
+      expect('if false then true else false').to parse.as cond(fls, tru, fls)
+    end
+
+    example do
+      expect('if true then 0 else succ 0').to parse.as cond(tru, zero, succ(zero))
+    end
+
+    example do
+      expect('if pred 0 then true else false').to parse.as cond(pred(zero), tru, fls)
+    end
+
+    example do
+      expect('if true then 0 else false').to parse.as cond(tru, zero, fls)
+    end
+  end
 end
