@@ -9,6 +9,10 @@ module TermHelpers
     Builder.new.build_application(left, right)
   end
 
+  def as(term, type)
+    Builder.new.build_ascription(term, type)
+  end
+
   def cond(condition, consequent, alternative)
     Builder.new.build_if(condition, consequent, alternative)
   end

@@ -46,6 +46,10 @@ class Builder
     Term::Sequence.new(first, second)
   end
 
+  def build_ascription(term, type)
+    Term::Ascription.new(term, type)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

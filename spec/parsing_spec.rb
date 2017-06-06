@@ -156,4 +156,14 @@ RSpec.describe 'parsing' do
       expect('λ_:Bool._').to parse.as abs(:_, bool, var(:_))
     end
   end
+
+  describe 'ascriptions' do
+    example do
+      expect('true as Bool').to parse.as as(tru, bool)
+    end
+
+    example do
+      expect('true as Unit').to parse.as as(tru, void)
+    end
+  end
 end

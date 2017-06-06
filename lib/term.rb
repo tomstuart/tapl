@@ -3,6 +3,7 @@ module Term
 
   Abstraction = Struct.new(:parameter_name, :parameter_type, :body)
   Application = Struct.new(:left, :right)
+  Ascription = Struct.new(:term, :type)
   False = Object.new
   If = Struct.new(:condition, :consequent, :alternative)
   IsZero = Struct.new(:term)
