@@ -72,7 +72,7 @@ class Parser
       parse_if
     elsif can_read? %r{unit}
       parse_unit
-    elsif can_read? %r{[a-z]+}
+    elsif can_read? %r{[a-z_]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
       parse_abstraction
@@ -212,7 +212,7 @@ class Parser
   end
 
   def read_name
-    read %r{[a-z]+}
+    read %r{[a-z_]+}
   end
 
   def can_read?(pattern)

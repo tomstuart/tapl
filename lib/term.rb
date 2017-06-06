@@ -1,4 +1,6 @@
 module Term
+  WILDCARD = '_'
+
   Abstraction = Struct.new(:parameter_name, :parameter_type, :body)
   Application = Struct.new(:left, :right)
   False = Object.new

@@ -150,4 +150,10 @@ RSpec.describe 'parsing' do
       expect('true; unit').to parse.as seq(tru, unit)
     end
   end
+
+  describe 'wildcards' do
+    example do
+      expect('λ_:Bool._').to parse.as abs(:_, bool, var(:_))
+    end
+  end
 end
