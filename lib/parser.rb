@@ -58,16 +58,28 @@ class Parser
   end
 
   def parse_applications
-    term = parse_term_in_application
+    term = parse_projection
 
-    until can_read? %r{\)|\}|then|else|;|as|in|,|\z} do
-      term = builder.build_application(term, parse_term_in_application)
+    until can_read? %r{\)|\}|then|else|;|as|in|,|\.|\z} do
+      term = builder.build_application(term, parse_projection)
     end
 
     term
   end
 
-  def parse_term_in_application
+  def parse_projection
+    term = parse_term_in_projection
+
+    if can_read? %r{\.}
+      read %r{\.}
+      index = read %r{[12]}
+      builder.build_projection(term, index)
+    else
+      term
+    end
+  end
+
+  def parse_term_in_projection
     if can_read? %r{\(}
       parse_brackets
     elsif can_read? %r{\{}

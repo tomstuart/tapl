@@ -189,5 +189,17 @@ RSpec.describe 'parsing' do
     example do
       expect('{true, λx:Bool.x}').to parse.as pair(tru, abs(:x, bool, var(:x)))
     end
+
+    example do
+      expect('{true, λx:Bool.x}.1').to parse.as proj(pair(tru, abs(:x, bool, var(:x))), 1)
+    end
+
+    example do
+      expect('{true, λx:Bool.x}.2').to parse.as proj(pair(tru, abs(:x, bool, var(:x))), 2)
+    end
+
+    example do
+      expect('(λx:Bool.x).2').to parse.as proj(abs(:x, bool, var(:x)), 2)
+    end
   end
 end

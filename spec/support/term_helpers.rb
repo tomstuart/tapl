@@ -37,6 +37,10 @@ module TermHelpers
     Builder.new.build_pred(term)
   end
 
+  def proj(term, index)
+    Builder.new.build_projection(term, index.to_s)
+  end
+
   def seq(first, second)
     Builder.new.build_sequence(first, second)
   end

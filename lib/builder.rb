@@ -58,6 +58,10 @@ class Builder
     Term::Pair.new(first, second)
   end
 
+  def build_projection(term, index)
+    Term::Projection.new(term, index)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

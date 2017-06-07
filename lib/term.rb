@@ -10,6 +10,7 @@ module Term
   Let = Struct.new(:definition_name, :definition_term, :body)
   Pair = Struct.new(:first, :second)
   Pred = Struct.new(:term)
+  Projection = Struct.new(:term, :index)
   Sequence = Struct.new(:first, :second)
   Succ = Struct.new(:term)
   True = Object.new
