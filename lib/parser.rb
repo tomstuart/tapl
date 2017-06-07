@@ -186,7 +186,7 @@ class Parser
   end
 
   def parse_type_functions
-    type = parse_type_in_function
+    type = parse_type_product
 
     if can_read? %r{→}
       read %r{→}
@@ -196,7 +196,19 @@ class Parser
     end
   end
 
-  def parse_type_in_function
+  def parse_type_product
+    type = parse_type_in_product
+
+    if can_read? %r{×}
+      read %r{×}
+      other_type = parse_type_in_product
+      builder.build_type_product(type, other_type)
+    else
+      type
+    end
+  end
+
+  def parse_type_in_product
     if can_read? %r{\(}
       parse_type_brackets
     elsif can_read? %r{Bool}

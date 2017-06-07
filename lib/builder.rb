@@ -69,4 +69,8 @@ class Builder
   def build_type_unit
     Type::Unit
   end
+
+  def build_type_product(first, second)
+    Type::Product.new(first, second)
+  end
 end

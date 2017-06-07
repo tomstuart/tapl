@@ -176,4 +176,14 @@ RSpec.describe 'parsing' do
       expect('let f = true in f true').to parse.as let(:f, tru, app(var(:f), tru))
     end
   end
+
+  describe 'pairs' do
+    example do
+      expect('Bool × Bool → Bool').to parse.as func(prod(bool, bool), bool)
+    end
+
+    example do
+      expect('Bool × (Bool → Bool)').to parse.as prod(bool, func(bool, bool))
+    end
+  end
 end

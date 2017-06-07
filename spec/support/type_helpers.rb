@@ -13,6 +13,10 @@ module TypeHelpers
     Builder.new.build_type_natural_number
   end
 
+  def prod(first, second)
+    Builder.new.build_type_product(first, second)
+  end
+
   def void
     Builder.new.build_type_unit
   end
