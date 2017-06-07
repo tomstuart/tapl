@@ -83,7 +83,7 @@ class Parser
     if can_read? %r{\(}
       parse_brackets
     elsif can_read? %r{\{}
-      parse_pair
+      parse_pair_or_tuple
     elsif can_read? %r{true|false}
       parse_boolean
     elsif can_read? %r{0}
@@ -195,14 +195,21 @@ class Parser
     builder.build_let(definition_name, definition_term, body)
   end
 
-  def parse_pair
+  def parse_pair_or_tuple
+    terms = []
     read %r{\{}
-    first = parse_term
-    read %r{,}
-    second = parse_term
+    loop do
+      terms << parse_term
+      break unless can_read? %r{,}
+      read %r{,}
+    end
     read %r{\}}
 
-    builder.build_pair(first, second)
+    if terms.length == 2
+      builder.build_pair(*terms)
+    else
+      builder.build_tuple(terms)
+    end
   end
 
   def parse_type

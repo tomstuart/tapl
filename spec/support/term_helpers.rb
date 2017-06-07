@@ -53,6 +53,10 @@ module TermHelpers
     Builder.new.build_boolean(true)
   end
 
+  def tuple(*terms)
+    Builder.new.build_tuple(terms)
+  end
+
   def unit
     Builder.new.build_unit
   end

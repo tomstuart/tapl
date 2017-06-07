@@ -14,6 +14,7 @@ module Term
   Sequence = Struct.new(:first, :second)
   Succ = Struct.new(:term)
   True = Object.new
+  Tuple = Struct.new(:terms)
   Unit = Object.new
   Variable = Struct.new(:name)
   Zero = Object.new

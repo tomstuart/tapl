@@ -62,6 +62,10 @@ class Builder
     Term::Projection.new(term, index)
   end
 
+  def build_tuple(terms)
+    Term::Tuple.new(terms)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

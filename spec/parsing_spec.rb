@@ -207,5 +207,9 @@ RSpec.describe 'parsing' do
     example do
       expect('{Unit, Bool, Bool → Unit}').to parse.as tuple_type(void, bool, func(bool, void))
     end
+
+    example do
+      expect('{unit, true, λx:Bool.unit}').to parse.as tuple(unit, tru, abs(:x, bool, unit))
+    end
   end
 end
