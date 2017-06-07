@@ -185,5 +185,9 @@ RSpec.describe 'parsing' do
     example do
       expect('Bool × (Bool → Bool)').to parse.as prod(bool, func(bool, bool))
     end
+
+    example do
+      expect('{true, λx:Bool.x}').to parse.as pair(tru, abs(:x, bool, var(:x)))
+    end
   end
 end

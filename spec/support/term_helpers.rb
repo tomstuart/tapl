@@ -29,6 +29,10 @@ module TermHelpers
     Builder.new.build_let(definition_name.to_s, definition_term, body)
   end
 
+  def pair(first, second)
+    Builder.new.build_pair(first, second)
+  end
+
   def pred(term)
     Builder.new.build_pred(term)
   end

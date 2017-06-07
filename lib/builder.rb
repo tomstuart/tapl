@@ -54,6 +54,10 @@ class Builder
     Term::Let.new(definition_name, definition_term, body)
   end
 
+  def build_pair(first, second)
+    Term::Pair.new(first, second)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

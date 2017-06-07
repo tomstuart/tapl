@@ -8,6 +8,7 @@ module Term
   If = Struct.new(:condition, :consequent, :alternative)
   IsZero = Struct.new(:term)
   Let = Struct.new(:definition_name, :definition_term, :body)
+  Pair = Struct.new(:first, :second)
   Pred = Struct.new(:term)
   Sequence = Struct.new(:first, :second)
   Succ = Struct.new(:term)

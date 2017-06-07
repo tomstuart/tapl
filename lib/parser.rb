@@ -60,7 +60,7 @@ class Parser
   def parse_applications
     term = parse_term_in_application
 
-    until can_read? %r{\)|then|else|;|as|in|\z} do
+    until can_read? %r{\)|\}|then|else|;|as|in|,|\z} do
       term = builder.build_application(term, parse_term_in_application)
     end
 
@@ -70,6 +70,8 @@ class Parser
   def parse_term_in_application
     if can_read? %r{\(}
       parse_brackets
+    elsif can_read? %r{\{}
+      parse_pair
     elsif can_read? %r{true|false}
       parse_boolean
     elsif can_read? %r{0}
@@ -179,6 +181,16 @@ class Parser
     body = parse_term
 
     builder.build_let(definition_name, definition_term, body)
+  end
+
+  def parse_pair
+    read %r{\{}
+    first = parse_term
+    read %r{,}
+    second = parse_term
+    read %r{\}}
+
+    builder.build_pair(first, second)
   end
 
   def parse_type
