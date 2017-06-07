@@ -25,6 +25,10 @@ module TermHelpers
     Builder.new.build_is_zero(term)
   end
 
+  def let(definition_name, definition_term, body)
+    Builder.new.build_let(definition_name.to_s, definition_term, body)
+  end
+
   def pred(term)
     Builder.new.build_pred(term)
   end

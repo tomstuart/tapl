@@ -50,6 +50,10 @@ class Builder
     Term::Ascription.new(term, type)
   end
 
+  def build_let(definition_name, definition_term, body)
+    Term::Let.new(definition_name, definition_term, body)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

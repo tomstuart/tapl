@@ -166,4 +166,14 @@ RSpec.describe 'parsing' do
       expect('true as Unit').to parse.as as(tru, void)
     end
   end
+
+  describe 'let' do
+    example do
+      expect('let f = λx:Bool.x in f true').to parse.as let(:f, abs(:x, bool, var(:x)), app(var(:f), tru))
+    end
+
+    example do
+      expect('let f = true in f true').to parse.as let(:f, tru, app(var(:f), tru))
+    end
+  end
 end

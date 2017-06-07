@@ -60,7 +60,7 @@ class Parser
   def parse_applications
     term = parse_term_in_application
 
-    until can_read? %r{\)|then|else|;|as|\z} do
+    until can_read? %r{\)|then|else|;|as|in|\z} do
       term = builder.build_application(term, parse_term_in_application)
     end
 
@@ -84,6 +84,8 @@ class Parser
       parse_if
     elsif can_read? %r{unit}
       parse_unit
+    elsif can_read? %r{let}
+      parse_let
     elsif can_read? %r{[a-z_]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
@@ -166,6 +168,17 @@ class Parser
     body = parse_term
 
     builder.build_abstraction(parameter_name, parameter_type, body)
+  end
+
+  def parse_let
+    read %r{let}
+    definition_name = read_name
+    read %r{=}
+    definition_term = parse_term
+    read %r{in}
+    body = parse_term
+
+    builder.build_let(definition_name, definition_term, body)
   end
 
   def parse_type
