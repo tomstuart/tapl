@@ -11,6 +11,8 @@ module Term
   Pair = Struct.new(:first, :second)
   Pred = Struct.new(:term)
   Projection = Struct.new(:term, :index)
+  Record = Struct.new(:fields)
+  Record::Field = Struct.new(:label, :term)
   Sequence = Struct.new(:first, :second)
   Succ = Struct.new(:term)
   True = Object.new

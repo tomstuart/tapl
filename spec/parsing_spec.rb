@@ -233,5 +233,13 @@ RSpec.describe 'parsing' do
     example do
       expect('{x:Bool, y:Bool → Bool, z:Unit}').to parse.as record_type(x: bool, y: func(bool, bool), z: void)
     end
+
+    example do
+      expect('{x=false, y=λx:Bool.true, z=unit}').to parse.as record([:x, fls], [:y, abs(:x, bool, tru)], [:z, unit])
+    end
+
+    example do
+      expect('{x=false, y=λx:Bool.true, x=unit}').to parse.as record([:x, fls], [:y, abs(:x, bool, tru)], [:x, unit])
+    end
   end
 end

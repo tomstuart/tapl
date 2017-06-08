@@ -83,7 +83,7 @@ class Parser
     if can_read? %r{\(}
       parse_brackets
     elsif can_read? %r{\{}
-      parse_pair_or_tuple
+      parse_pair_or_tuple_or_record
     elsif can_read? %r{true|false}
       parse_boolean
     elsif can_read? %r{0}
@@ -195,20 +195,35 @@ class Parser
     builder.build_let(definition_name, definition_term, body)
   end
 
-  def parse_pair_or_tuple
-    terms = []
+  def parse_pair_or_tuple_or_record
     read %r{\{}
-    loop do
-      terms << parse_term
-      break unless can_read? %r{,}
-      read %r{,}
-    end
-    read %r{\}}
+    if can_read? %r{[a-z_]+\s*=}
+      fields = []
+      loop do
+        label = read_name
+        read %r{=}
+        term = parse_term
+        fields << builder.build_record_field(label, term)
+        break unless can_read? %r{,}
+        read %r{,}
+      end
+      read %r{\}}
 
-    if terms.length == 2
-      builder.build_pair(*terms)
+      builder.build_record(fields)
     else
-      builder.build_tuple(terms)
+      terms = []
+      loop do
+        terms << parse_term
+        break unless can_read? %r{,}
+        read %r{,}
+      end
+      read %r{\}}
+
+      if terms.length == 2
+        builder.build_pair(*terms)
+      else
+        builder.build_tuple(terms)
+      end
     end
   end
 

@@ -41,6 +41,11 @@ module TermHelpers
     Builder.new.build_projection(term, index.to_s)
   end
 
+  def record(*fields)
+    builder = Builder.new
+    builder.build_record(fields.map { |label, term| builder.build_record_field(label.to_s, term) })
+  end
+
   def seq(first, second)
     Builder.new.build_sequence(first, second)
   end

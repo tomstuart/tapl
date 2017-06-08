@@ -66,6 +66,14 @@ class Builder
     Term::Tuple.new(terms)
   end
 
+  def build_record_field(label, term)
+    Term::Record::Field.new(label, term)
+  end
+
+  def build_record(fields)
+    Term::Record.new(fields)
+  end
+
   def build_type_boolean
     Type::Boolean
   end
