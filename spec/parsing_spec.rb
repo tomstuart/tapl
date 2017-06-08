@@ -241,5 +241,17 @@ RSpec.describe 'parsing' do
     example do
       expect('{x=false, y=λx:Bool.true, x=unit}').to parse.as record([:x, fls], [:y, abs(:x, bool, tru)], [:x, unit])
     end
+
+    example do
+      expect('{x=false, y=λx:Bool.true, z=unit}.y').to parse.as proj(record([:x, fls], [:y, abs(:x, bool, tru)], [:z, unit]), :y)
+    end
+
+    example do
+      expect('{x=false, y=λx:Bool.true, z=unit}.w').to parse.as proj(record([:x, fls], [:y, abs(:x, bool, tru)], [:z, unit]), :w)
+    end
+
+    example do
+      expect('true.x').to parse.as proj(tru, :x)
+    end
   end
 end

@@ -72,7 +72,12 @@ class Parser
 
     if can_read? %r{\.}
       read %r{\.}
-      index = read %r{\d+}
+      index =
+        if can_read? %r{[a-z_]+}
+          read_name
+        else
+          read %r{\d+}
+        end
       builder.build_projection(term, index)
     else
       term
