@@ -89,4 +89,12 @@ class Builder
   def build_type_tuple(types)
     Type::Tuple.new(types)
   end
+
+  def build_type_record_field(label, type)
+    Type::Record::Field.new(label, type)
+  end
+
+  def build_type_record(fields)
+    Type::Record.new(fields)
+  end
 end

@@ -228,4 +228,10 @@ RSpec.describe 'parsing' do
       expect('(λx:Bool.x).1').to parse.as proj(abs(:x, bool, var(:x)), 1)
     end
   end
+
+  describe 'records' do
+    example do
+      expect('{x:Bool, y:Bool → Bool, z:Unit}').to parse.as record_type(x: bool, y: func(bool, bool), z: void)
+    end
+  end
 end

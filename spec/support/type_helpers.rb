@@ -17,6 +17,11 @@ module TypeHelpers
     Builder.new.build_type_product(first, second)
   end
 
+  def record_type(fields)
+    builder = Builder.new
+    builder.build_type_record(fields.map { |label, type| builder.build_type_record_field(label.to_s, type) })
+  end
+
   def tuple_type(*types)
     Builder.new.build_type_tuple(types)
   end
