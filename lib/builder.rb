@@ -81,4 +81,8 @@ class Builder
   def build_type_product(first, second)
     Type::Product.new(first, second)
   end
+
+  def build_type_tuple(types)
+    Type::Tuple.new(types)
+  end
 end

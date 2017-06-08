@@ -202,4 +202,10 @@ RSpec.describe 'parsing' do
       expect('(λx:Bool.x).2').to parse.as proj(abs(:x, bool, var(:x)), 2)
     end
   end
+
+  describe 'tuples' do
+    example do
+      expect('{Unit, Bool, Bool → Unit}').to parse.as tuple_type(void, bool, func(bool, void))
+    end
+  end
 end

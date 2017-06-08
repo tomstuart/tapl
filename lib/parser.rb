@@ -235,6 +235,8 @@ class Parser
   def parse_type_in_product
     if can_read? %r{\(}
       parse_type_brackets
+    elsif can_read? %r{\{}
+      parse_type_tuple
     elsif can_read? %r{Bool}
       parse_type_boolean
     elsif can_read? %r{Nat}
@@ -270,6 +272,19 @@ class Parser
     read %r{Unit}
 
     builder.build_type_unit
+  end
+
+  def parse_type_tuple
+    types = []
+    read %r{\{}
+    loop do
+      types << parse_type
+      break unless can_read? %r{,}
+      read %r{,}
+    end
+    read %r{\}}
+
+    builder.build_type_tuple(types)
   end
 
   def read_name

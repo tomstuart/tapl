@@ -17,6 +17,10 @@ module TypeHelpers
     Builder.new.build_type_product(first, second)
   end
 
+  def tuple_type(*types)
+    Builder.new.build_type_tuple(types)
+  end
+
   def void
     Builder.new.build_type_unit
   end
