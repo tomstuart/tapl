@@ -72,7 +72,7 @@ class Parser
 
     if can_read? %r{\.}
       read %r{\.}
-      index = read %r{[12]}
+      index = read %r{\d+}
       builder.build_projection(term, index)
     else
       term

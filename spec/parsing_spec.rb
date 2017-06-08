@@ -211,5 +211,21 @@ RSpec.describe 'parsing' do
     example do
       expect('{unit, true, λx:Bool.unit}').to parse.as tuple(unit, tru, abs(:x, bool, unit))
     end
+
+    example do
+      expect('{unit, true, λx:Bool.unit}.3').to parse.as proj(tuple(unit, tru, abs(:x, bool, unit)), 3)
+    end
+
+    example do
+      expect('{unit, true, λx:Bool.unit}.0').to parse.as proj(tuple(unit, tru, abs(:x, bool, unit)), 0)
+    end
+
+    example do
+      expect('{unit, true, λx:Bool.unit}.4').to parse.as proj(tuple(unit, tru, abs(:x, bool, unit)), 4)
+    end
+
+    example do
+      expect('(λx:Bool.x).1').to parse.as proj(abs(:x, bool, var(:x)), 1)
+    end
   end
 end
