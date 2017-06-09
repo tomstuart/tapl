@@ -74,6 +74,14 @@ class Builder
     Term::Record.new(fields)
   end
 
+  def build_in_left(term, type)
+    Term::InLeft.new(term, type)
+  end
+
+  def build_in_right(term, type)
+    Term::InRight.new(term, type)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

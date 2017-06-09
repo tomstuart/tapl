@@ -259,5 +259,21 @@ RSpec.describe 'parsing' do
     example do
       expect('Bool + Unit').to parse.as sum(bool, void)
     end
+
+    example do
+      expect('inl true as Bool + Unit').to parse.as inl(tru, sum(bool, void))
+    end
+
+    example do
+      expect('inr unit as Bool + Unit').to parse.as inr(unit, sum(bool, void))
+    end
+
+    example do
+      expect('inl unit as Bool + Unit').to parse.as inl(unit, sum(bool, void))
+    end
+
+    example do
+      expect('inl true as Bool').to parse.as inl(tru, bool)
+    end
   end
 end

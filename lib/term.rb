@@ -6,6 +6,8 @@ module Term
   Ascription = Struct.new(:term, :type)
   False = Object.new
   If = Struct.new(:condition, :consequent, :alternative)
+  InLeft = Struct.new(:term, :type)
+  InRight = Struct.new(:term, :type)
   IsZero = Struct.new(:term)
   Let = Struct.new(:definition_name, :definition_term, :body)
   Pair = Struct.new(:first, :second)

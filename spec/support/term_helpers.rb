@@ -21,6 +21,14 @@ module TermHelpers
     Builder.new.build_boolean(false)
   end
 
+  def inl(term, type)
+    Builder.new.build_in_left(term, type)
+  end
+
+  def inr(term, type)
+    Builder.new.build_in_right(term, type)
+  end
+
   def is_zero(term)
     Builder.new.build_is_zero(term)
   end

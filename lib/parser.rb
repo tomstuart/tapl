@@ -105,6 +105,8 @@ class Parser
       parse_unit
     elsif can_read? %r{let}
       parse_let
+    elsif can_read? %r{inl|inr}
+      parse_sum
     elsif can_read? %r{[a-z_]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
@@ -229,6 +231,20 @@ class Parser
       else
         builder.build_tuple(terms)
       end
+    end
+  end
+
+  def parse_sum
+    tag = read %r{inl|inr}
+    term = parse_sequence
+    read %r{as}
+    type = parse_type
+
+    case tag
+    when 'inl'
+      builder.build_in_left(term, type)
+    when 'inr'
+      builder.build_in_right(term, type)
     end
   end
 
