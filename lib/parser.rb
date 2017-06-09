@@ -237,11 +237,23 @@ class Parser
   end
 
   def parse_type_functions
-    type = parse_type_product
+    type = parse_type_sum
 
     if can_read? %r{→}
       read %r{→}
       builder.build_type_function(type, parse_type_functions)
+    else
+      type
+    end
+  end
+
+  def parse_type_sum
+    type = parse_type_product
+
+    if can_read? %r{\+}
+      read %r{\+}
+      other_type = parse_type_product
+      builder.build_type_sum(type, other_type)
     else
       type
     end

@@ -12,6 +12,7 @@ module Type
   Record = Struct.new(:fields)
   Record.include(Fields)
   Record::Field = Struct.new(:label, :type)
+  Sum = Struct.new(:left, :right)
   Tuple = Struct.new(:types)
   Unit = Object.new
 end

@@ -254,4 +254,10 @@ RSpec.describe 'parsing' do
       expect('true.x').to parse.as proj(tru, :x)
     end
   end
+
+  describe 'sums' do
+    example do
+      expect('Bool + Unit').to parse.as sum(bool, void)
+    end
+  end
 end

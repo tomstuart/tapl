@@ -105,4 +105,8 @@ class Builder
   def build_type_record(fields)
     Type::Record.new(fields)
   end
+
+  def build_type_sum(left, right)
+    Type::Sum.new(left, right)
+  end
 end
