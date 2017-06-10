@@ -28,4 +28,34 @@ RSpec.describe 'parsing' do
       expect('Nat').to parse.as nat
     end
   end
+
+  describe 'natural numbers' do
+    example do
+      expect('0').to parse.as zero
+    end
+
+    example do
+      expect('pred 0').to parse.as pred(zero)
+    end
+
+    example do
+      expect('succ (pred 0)').to parse.as succ(pred(zero))
+    end
+
+    example do
+      expect('iszero (succ (pred 0))').to parse.as is_zero(succ(pred(zero)))
+    end
+
+    example do
+      expect('pred (iszero 0)').to parse.as pred(is_zero(zero))
+    end
+
+    example do
+      expect('iszero (iszero 0)').to parse.as is_zero(is_zero(zero))
+    end
+
+    example do
+      expect('Nat').to parse.as nat
+    end
+  end
 end

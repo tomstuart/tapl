@@ -31,17 +31,62 @@ class Parser
   end
 
   def parse_term
-    if can_read? %r{true|false}
+    if can_read? %r{\(}
+      parse_brackets
+    elsif can_read? %r{true|false}
       parse_boolean
+    elsif can_read? %r{0}
+      parse_zero
+    elsif can_read? %r{pred}
+      parse_pred
+    elsif can_read? %r{succ}
+      parse_succ
+    elsif can_read? %r{iszero}
+      parse_is_zero
     else
       complain
     end
+  end
+
+  def parse_brackets
+    read %r{\(}
+    term = parse_term
+    read %r{\)}
+
+    term
   end
 
   def parse_boolean
     value = read %r{true|false}
 
     builder.build_boolean(value == 'true')
+  end
+
+  def parse_zero
+    read %r{0}
+
+    builder.build_zero
+  end
+
+  def parse_pred
+    read %r{pred}
+    term = parse_term
+
+    builder.build_pred(term)
+  end
+
+  def parse_succ
+    read %r{succ}
+    term = parse_term
+
+    builder.build_succ(term)
+  end
+
+  def parse_is_zero
+    read %r{iszero}
+    term = parse_term
+
+    builder.build_is_zero(term)
   end
 
   def parse_type
