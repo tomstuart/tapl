@@ -98,6 +98,10 @@ class Builder
     Term::VariantCase.new(term, cases)
   end
 
+  def build_fix(term)
+    Term::Fix.new(term)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

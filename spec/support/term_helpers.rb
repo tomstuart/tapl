@@ -26,6 +26,10 @@ module TermHelpers
     Builder.new.build_if(condition, consequent, alternative)
   end
 
+  def fix(term)
+    Builder.new.build_fix(term)
+  end
+
   def fls
     Builder.new.build_boolean(false)
   end

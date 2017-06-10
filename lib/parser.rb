@@ -111,6 +111,8 @@ class Parser
       parse_sum
     elsif can_read? %r{case}
       parse_case
+    elsif can_read? %r{fix}
+      parse_fix
     elsif can_read? %r{[a-z_]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
@@ -296,6 +298,11 @@ class Parser
     type = parse_type
 
     builder.build_tagging(label, term, type)
+  end
+
+  def parse_fix
+    read %{fix}
+    builder.build_fix(parse_term)
   end
 
   def parse_type

@@ -334,4 +334,22 @@ RSpec.describe 'parsing' do
       expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ x | <some=y> ⇒ y').to parse.as casv(tag(:some, tru, variant(none: void, some: bool)), [[:none, :x, var(:x)], [:some, :y, var(:y)]])
     end
   end
+
+  describe 'fix' do
+    example do
+      expect('fix λie:Nat → Bool.λx:Nat.if iszero x then true else if iszero (pred x) then false else ie (pred (pred x))').to parse.as fix(abs(:ie, func(nat, bool), abs(:x, nat, cond(is_zero(var(:x)), tru, cond(is_zero(pred(var(:x))), fls, app(var(:ie), pred(pred(var(:x)))))))))
+    end
+
+    example do
+      expect('fix λieio:{iseven:Nat → Bool, isodd:Nat → Bool}.{iseven=λx:Nat.if iszero x then true else ieio.isodd (pred x), isodd=λx:Nat.if iszero x then false else ieio.iseven (pred x)}').to parse.as fix(abs(:ieio, record_type(iseven: func(nat, bool), isodd: func(nat, bool)), record([:iseven, abs(:x, nat, cond(is_zero(var(:x)), tru, app(proj(var(:ieio), :isodd), pred(var(:x)))))], [:isodd, abs(:x, nat, cond(is_zero(var(:x)), fls, app(proj(var(:ieio), :iseven), pred(var(:x)))))])))
+    end
+
+    example do
+      expect('fix iszero (succ 0)').to parse.as fix(is_zero(succ(zero)))
+    end
+
+    example do
+      expect('fix λx:Nat.iszero x').to parse.as fix(abs(:x, nat, is_zero(var(:x))))
+    end
+  end
 end
