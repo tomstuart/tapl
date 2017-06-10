@@ -102,6 +102,10 @@ class Builder
     Term::Fix.new(term)
   end
 
+  def build_letrec(definition_name, definition_type, definition_term, body)
+    Term::LetRec.new(definition_name.to_s, definition_type, definition_term, body)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

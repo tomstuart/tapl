@@ -50,6 +50,10 @@ module TermHelpers
     Builder.new.build_let(definition_name.to_s, definition_term, body)
   end
 
+  def letrec(definition_name, definition_type, definition_term, body)
+    Builder.new.build_letrec(definition_name.to_s, definition_type, definition_term, body)
+  end
+
   def pair(first, second)
     Builder.new.build_pair(first, second)
   end

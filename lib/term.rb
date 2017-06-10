@@ -12,6 +12,7 @@ module Term
   InRight = Struct.new(:term, :type)
   IsZero = Struct.new(:term)
   Let = Struct.new(:definition_name, :definition_term, :body)
+  LetRec = Struct.new(:definition_name, :definition_type, :definition_term, :body)
   Pair = Struct.new(:first, :second)
   Pred = Struct.new(:term)
   Projection = Struct.new(:term, :index)

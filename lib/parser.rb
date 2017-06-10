@@ -105,6 +105,8 @@ class Parser
       parse_if
     elsif can_read? %r{unit}
       parse_unit
+    elsif can_read? %r{letrec}
+      parse_letrec
     elsif can_read? %r{let}
       parse_let
     elsif can_read? %r{inl|inr}
@@ -303,6 +305,19 @@ class Parser
   def parse_fix
     read %{fix}
     builder.build_fix(parse_term)
+  end
+
+  def parse_letrec
+    read %r{letrec}
+    definition_name = read_name
+    read %r{:}
+    definition_type = parse_type
+    read %r{=}
+    definition_term = parse_term
+    read %r{in}
+    body = parse_term
+
+    builder.build_letrec(definition_name, definition_type, definition_term, body)
   end
 
   def parse_type
