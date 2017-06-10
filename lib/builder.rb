@@ -9,4 +9,8 @@ class Builder
   def build_type_boolean
     Type::Boolean
   end
+
+  def build_type_natural_number
+    Type::NaturalNumber
+  end
 end

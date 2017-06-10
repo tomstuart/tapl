@@ -47,6 +47,8 @@ class Parser
   def parse_type
     if can_read? %r{Bool}
       parse_type_boolean
+    elsif can_read? %r{Nat}
+      parse_type_natural_number
     else
       complain
     end
@@ -56,6 +58,12 @@ class Parser
     read %r{Bool}
 
     builder.build_type_boolean
+  end
+
+  def parse_type_natural_number
+    read %r{Nat}
+
+    builder.build_type_natural_number
   end
 
   def can_read?(pattern)

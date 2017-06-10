@@ -22,4 +22,10 @@ RSpec.describe 'parsing' do
       expect('false').to parse.as fls
     end
   end
+
+  describe 'natural numbers' do
+    example do
+      expect('Nat').to parse.as nat
+    end
+  end
 end
