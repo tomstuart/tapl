@@ -90,6 +90,14 @@ class Builder
     Term::Tagging.new(label, term, type)
   end
 
+  def build_variant_case_case(label, name, term)
+    Term::VariantCase::Case.new(label, name, term)
+  end
+
+  def build_variant_case(term, cases)
+    Term::VariantCase.new(term, cases)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

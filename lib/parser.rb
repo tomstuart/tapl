@@ -256,16 +256,34 @@ class Parser
     read %r{case}
     term = parse_term
     read %r{of}
-    read %r{inl}
-    left_name = read_name
-    read %r{⇒}
-    left_term = parse_term
-    read %r{\|}
-    read %r{inr}
-    right_name = read_name
-    read %r{⇒}
-    right_term = parse_term
-    builder.build_case(term, left_name, left_term, right_name, right_term)
+    if can_read? %r{inl}
+      read %r{inl}
+      left_name = read_name
+      read %r{⇒}
+      left_term = parse_term
+      read %r{\|}
+      read %r{inr}
+      right_name = read_name
+      read %r{⇒}
+      right_term = parse_term
+      builder.build_case(term, left_name, left_term, right_name, right_term)
+    else
+      cases = []
+      loop do
+        read %r{<}
+        label = read_name
+        read %r{=}
+        name = read_name
+        read %r{>}
+        read %r{⇒}
+        case_term = parse_term
+        cases << builder.build_variant_case_case(label, name, case_term)
+        break unless can_read? %r{\|}
+        read %r{\|}
+      end
+
+      builder.build_variant_case(term, cases)
+    end
   end
 
   def parse_tagging

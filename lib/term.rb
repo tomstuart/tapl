@@ -23,6 +23,8 @@ module Term
   Tuple = Struct.new(:terms)
   Unit = Object.new
   Variable = Struct.new(:name)
+  VariantCase = Struct.new(:term, :cases)
+  VariantCase::Case = Struct.new(:label, :name, :term)
   Zero = Object.new
 
   def self.free_names(term)

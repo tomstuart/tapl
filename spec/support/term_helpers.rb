@@ -17,6 +17,11 @@ module TermHelpers
     Builder.new.build_case(term, left_name.to_s, left_term, right_name.to_s, right_term)
   end
 
+  def casv(term, cases)
+    builder = Builder.new
+    builder.build_variant_case(term, cases.map { |label, name, term| builder.build_variant_case_case(label.to_s, name.to_s, term) })
+  end
+
   def cond(condition, consequent, alternative)
     Builder.new.build_if(condition, consequent, alternative)
   end

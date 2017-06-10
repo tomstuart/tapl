@@ -309,5 +309,29 @@ RSpec.describe 'parsing' do
     example do
       expect('<some=true> as Unit × Bool').to parse.as tag(:some, tru, prod(void, bool))
     end
+
+    example do
+      expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ false | <some=y> ⇒ y').to parse.as casv(tag(:some, tru, variant(none: void, some: bool)), [[:none, :x, fls], [:some, :y, var(:y)]])
+    end
+
+    example do
+      expect('case true of <none=x> ⇒ false | <some=y> ⇒ y').to parse.as casv(tru, [[:none, :x, fls], [:some, :y, var(:y)]])
+    end
+
+    example do
+      expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ false | <some=y> ⇒ y | <many=z> ⇒ true').to parse.as casv(tag(:some, tru, variant(none: void, some: bool)), [[:none, :x, fls], [:some, :y, var(:y)], [:many, :z, tru]])
+    end
+
+    example do
+      expect('case <some=true> as <none:Unit, some:Bool> of <some=y> ⇒ y').to parse.as casv(tag(:some, tru, variant(none: void, some: bool)), [[:some, :y, var(:y)]])
+    end
+
+    example do
+      expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ false | <some=y> ⇒ y | <some=z> ⇒ z').to parse.as casv(tag(:some, tru, variant(none: void, some: bool)), [[:none, :x, fls], [:some, :y, var(:y)], [:some, :z, var(:z)]])
+    end
+
+    example do
+      expect('case <some=true> as <none:Unit, some:Bool> of <none=x> ⇒ x | <some=y> ⇒ y').to parse.as casv(tag(:some, tru, variant(none: void, some: bool)), [[:none, :x, var(:x)], [:some, :y, var(:y)]])
+    end
   end
 end
