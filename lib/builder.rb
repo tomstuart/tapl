@@ -82,6 +82,10 @@ class Builder
     Term::InRight.new(term, type)
   end
 
+  def build_case(term, left_name, left_term, right_name, right_term)
+    Term::Case.new(term, left_name, left_term, right_name, right_term)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

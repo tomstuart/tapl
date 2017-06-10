@@ -13,6 +13,10 @@ module TermHelpers
     Builder.new.build_ascription(term, type)
   end
 
+  def cas(term, left_name, left_term, right_name, right_term)
+    Builder.new.build_case(term, left_name.to_s, left_term, right_name.to_s, right_term)
+  end
+
   def cond(condition, consequent, alternative)
     Builder.new.build_if(condition, consequent, alternative)
   end

@@ -275,5 +275,17 @@ RSpec.describe 'parsing' do
     example do
       expect('inl true as Bool').to parse.as inl(tru, bool)
     end
+
+    example do
+      expect('case inl true as Bool + Unit of inl x ⇒ x | inr y ⇒ y; false').to parse.as cas(inl(tru, sum(bool, void)), :x, var(:x), :y, seq(var(:y), fls))
+    end
+
+    example do
+      expect('case inl true as Bool + Unit of inl x ⇒ x | inr y ⇒ λz:Bool.y').to parse.as cas(inl(tru, sum(bool, void)), :x, var(:x), :y, abs(:z, bool, var(:y)))
+    end
+
+    example do
+      expect('case true of inl x ⇒ x | inr y ⇒ y; false').to parse.as cas(tru, :x, var(:x), :y, seq(var(:y), fls))
+    end
   end
 end

@@ -60,7 +60,7 @@ class Parser
   def parse_applications
     term = parse_projection
 
-    until can_read? %r{\)|\}|then|else|;|as|in|,|\.|\z} do
+    until can_read? %r{\)|\}|then|else|;|as|in|,|\.|of|\||\z} do
       term = builder.build_application(term, parse_projection)
     end
 
@@ -107,6 +107,8 @@ class Parser
       parse_let
     elsif can_read? %r{inl|inr}
       parse_sum
+    elsif can_read? %r{case}
+      parse_case
     elsif can_read? %r{[a-z_]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
@@ -246,6 +248,22 @@ class Parser
     when 'inr'
       builder.build_in_right(term, type)
     end
+  end
+
+  def parse_case
+    read %r{case}
+    term = parse_term
+    read %r{of}
+    read %r{inl}
+    left_name = read_name
+    read %r{⇒}
+    left_term = parse_term
+    read %r{\|}
+    read %r{inr}
+    right_name = read_name
+    read %r{⇒}
+    right_term = parse_term
+    builder.build_case(term, left_name, left_term, right_name, right_term)
   end
 
   def parse_type

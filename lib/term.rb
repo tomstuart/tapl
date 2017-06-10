@@ -4,6 +4,7 @@ module Term
   Abstraction = Struct.new(:parameter_name, :parameter_type, :body)
   Application = Struct.new(:left, :right)
   Ascription = Struct.new(:term, :type)
+  Case = Struct.new(:term, :left_name, :left_term, :right_name, :right_term)
   False = Object.new
   If = Struct.new(:condition, :consequent, :alternative)
   InLeft = Struct.new(:term, :type)
