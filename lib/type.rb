@@ -15,4 +15,7 @@ module Type
   Sum = Struct.new(:left, :right)
   Tuple = Struct.new(:types)
   Unit = Object.new
+  Variant = Struct.new(:fields)
+  Variant.include(Fields)
+  Variant::Field = Struct.new(:label, :type)
 end

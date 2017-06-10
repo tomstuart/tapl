@@ -121,4 +121,12 @@ class Builder
   def build_type_sum(left, right)
     Type::Sum.new(left, right)
   end
+
+  def build_type_variant_field(label, type)
+    Type::Variant::Field.new(label, type)
+  end
+
+  def build_type_variant(fields)
+    Type::Variant.new(fields)
+  end
 end

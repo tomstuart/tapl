@@ -288,4 +288,10 @@ RSpec.describe 'parsing' do
       expect('case true of inl x ⇒ x | inr y ⇒ y; false').to parse.as cas(tru, :x, var(:x), :y, seq(var(:y), fls))
     end
   end
+
+  describe 'variants' do
+    example do
+      expect('<none: Unit, some: Bool>').to parse.as variant(none: void, some: bool)
+    end
+  end
 end

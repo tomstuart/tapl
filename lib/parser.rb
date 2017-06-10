@@ -310,6 +310,8 @@ class Parser
       parse_type_brackets
     elsif can_read? %r{\{}
       parse_type_tuple_or_record
+    elsif can_read? %r{<}
+      parse_type_variant
     elsif can_read? %r{Bool}
       parse_type_boolean
     elsif can_read? %r{Nat}
@@ -373,6 +375,22 @@ class Parser
 
       builder.build_type_tuple(types)
     end
+  end
+
+  def parse_type_variant
+    fields = []
+    read %r{<}
+    loop do
+      label = read_name
+      read %r{:}
+      type = parse_type
+      fields << builder.build_type_variant_field(label, type)
+      break unless can_read? %r{,}
+      read %r{,}
+    end
+    read %r{>}
+
+    builder.build_type_variant(fields)
   end
 
   def read_name
