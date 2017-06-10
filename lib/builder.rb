@@ -86,6 +86,10 @@ class Builder
     Term::Case.new(term, left_name, left_term, right_name, right_term)
   end
 
+  def build_tagging(label, term, type)
+    Term::Tagging.new(label, term, type)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

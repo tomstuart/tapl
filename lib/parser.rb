@@ -60,7 +60,7 @@ class Parser
   def parse_applications
     term = parse_projection
 
-    until can_read? %r{\)|\}|then|else|;|as|in|,|\.|of|\||\z} do
+    until can_read? %r{\)|\}|>|then|else|;|as|in|,|\.|of|\||\z} do
       term = builder.build_application(term, parse_projection)
     end
 
@@ -89,6 +89,8 @@ class Parser
       parse_brackets
     elsif can_read? %r{\{}
       parse_pair_or_tuple_or_record
+    elsif can_read? %r{<}
+      parse_tagging
     elsif can_read? %r{true|false}
       parse_boolean
     elsif can_read? %r{0}
@@ -264,6 +266,18 @@ class Parser
     read %r{⇒}
     right_term = parse_term
     builder.build_case(term, left_name, left_term, right_name, right_term)
+  end
+
+  def parse_tagging
+    read %r{<}
+    label = read_name
+    read %r{=}
+    term = parse_term
+    read %r{>}
+    read %r{as}
+    type = parse_type
+
+    builder.build_tagging(label, term, type)
   end
 
   def parse_type

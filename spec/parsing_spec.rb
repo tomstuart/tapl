@@ -293,5 +293,21 @@ RSpec.describe 'parsing' do
     example do
       expect('<none: Unit, some: Bool>').to parse.as variant(none: void, some: bool)
     end
+
+    example do
+      expect('<some=true> as <none: Unit, some: Bool>').to parse.as tag(:some, tru, variant(none: void, some: bool))
+    end
+
+    example do
+      expect('<some=unit> as <none: Unit, some: Bool>').to parse.as tag(:some, unit, variant(none: void, some: bool))
+    end
+
+    example do
+      expect('<many=false> as <none: Unit, some: Bool>').to parse.as tag(:many, fls, variant(none: void, some: bool))
+    end
+
+    example do
+      expect('<some=true> as Unit × Bool').to parse.as tag(:some, tru, prod(void, bool))
+    end
   end
 end

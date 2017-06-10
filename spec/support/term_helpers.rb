@@ -66,6 +66,10 @@ module TermHelpers
     Builder.new.build_succ(term)
   end
 
+  def tag(label, term, type)
+    Builder.new.build_tagging(label.to_s, term, type)
+  end
+
   def tru
     Builder.new.build_boolean(true)
   end

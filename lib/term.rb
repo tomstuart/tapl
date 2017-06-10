@@ -18,6 +18,7 @@ module Term
   Record::Field = Struct.new(:label, :term)
   Sequence = Struct.new(:first, :second)
   Succ = Struct.new(:term)
+  Tagging = Struct.new(:label, :term, :type)
   True = Object.new
   Tuple = Struct.new(:terms)
   Unit = Object.new
