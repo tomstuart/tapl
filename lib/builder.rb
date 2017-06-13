@@ -106,6 +106,26 @@ class Builder
     Term::LetRec.new(definition_name.to_s, definition_type, definition_term, body)
   end
 
+  def build_nil(type)
+    Term::Nil.new(type)
+  end
+
+  def build_cons(type, head, tail)
+    Term::Cons.new(type, head, tail)
+  end
+
+  def build_is_nil(type, term)
+    Term::IsNil.new(type, term)
+  end
+
+  def build_head(type, term)
+    Term::Head.new(type, term)
+  end
+
+  def build_tail(type, term)
+    Term::Tail.new(type, term)
+  end
+
   def build_type_boolean
     Type::Boolean
   end

@@ -115,6 +115,16 @@ class Parser
       parse_case
     elsif can_read? %r{fix}
       parse_fix
+    elsif can_read? %r{nil}
+      parse_nil
+    elsif can_read? %r{cons}
+      parse_cons
+    elsif can_read? %r{isnil}
+      parse_is_nil
+    elsif can_read? %r{head}
+      parse_head
+    elsif can_read? %r{tail}
+      parse_tail
     elsif can_read? %r{[a-z_]+}
       parse_variable
     elsif can_read? %r{[λ^\\]}
@@ -318,6 +328,56 @@ class Parser
     body = parse_term
 
     builder.build_letrec(definition_name, definition_type, definition_term, body)
+  end
+
+  def parse_nil
+    read %r{nil}
+    read %r{\[}
+    type = parse_type
+    read %r{\]}
+
+    builder.build_nil(type)
+  end
+
+  def parse_cons
+    read %r{cons}
+    read %r{\[}
+    type = parse_type
+    read %r{\]}
+    head = parse_projection
+    tail = parse_term
+
+    builder.build_cons(type, head, tail)
+  end
+
+  def parse_is_nil
+    read %r{isnil}
+    read %r{\[}
+    type = parse_type
+    read %r{\]}
+    term = parse_term
+
+    builder.build_is_nil(type, term)
+  end
+
+  def parse_head
+    read %r{head}
+    read %r{\[}
+    type = parse_type
+    read %r{\]}
+    term = parse_term
+
+    builder.build_head(type, term)
+  end
+
+  def parse_tail
+    read %r{tail}
+    read %r{\[}
+    type = parse_type
+    read %r{\]}
+    term = parse_term
+
+    builder.build_tail(type, term)
   end
 
   def parse_type

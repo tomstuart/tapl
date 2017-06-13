@@ -5,14 +5,18 @@ module Term
   Application = Struct.new(:left, :right)
   Ascription = Struct.new(:term, :type)
   Case = Struct.new(:term, :left_name, :left_term, :right_name, :right_term)
+  Cons = Struct.new(:type, :head, :tail)
   False = Object.new
   Fix = Struct.new(:term)
+  Head = Struct.new(:type, :term)
   If = Struct.new(:condition, :consequent, :alternative)
   InLeft = Struct.new(:term, :type)
   InRight = Struct.new(:term, :type)
+  IsNil = Struct.new(:type, :term)
   IsZero = Struct.new(:term)
   Let = Struct.new(:definition_name, :definition_term, :body)
   LetRec = Struct.new(:definition_name, :definition_type, :definition_term, :body)
+  Nil = Struct.new(:type)
   Pair = Struct.new(:first, :second)
   Pred = Struct.new(:term)
   Projection = Struct.new(:term, :index)
@@ -21,6 +25,7 @@ module Term
   Sequence = Struct.new(:first, :second)
   Succ = Struct.new(:term)
   Tagging = Struct.new(:label, :term, :type)
+  Tail = Struct.new(:type, :term)
   True = Object.new
   Tuple = Struct.new(:terms)
   Unit = Object.new

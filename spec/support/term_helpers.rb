@@ -26,6 +26,10 @@ module TermHelpers
     Builder.new.build_if(condition, consequent, alternative)
   end
 
+  def empty(type)
+    Builder.new.build_nil(type)
+  end
+
   def fix(term)
     Builder.new.build_fix(term)
   end
@@ -101,5 +105,21 @@ module TermHelpers
 
   def zero
     Builder.new.build_zero
+  end
+
+  def cons(type, head, tail)
+    Builder.new.build_cons(type, head, tail)
+  end
+
+  def is_nil(type, term)
+    Builder.new.build_is_nil(type, term)
+  end
+
+  def head(type, term)
+    Builder.new.build_head(type, term)
+  end
+
+  def tail(type, term)
+    Builder.new.build_tail(type, term)
   end
 end

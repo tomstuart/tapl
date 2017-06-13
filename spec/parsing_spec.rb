@@ -363,5 +363,25 @@ RSpec.describe 'parsing' do
     example do
       expect('List Nat').to parse.as list(nat)
     end
+
+    example do
+      expect('nil[Nat]').to parse.as empty(nat)
+    end
+
+    example do
+      expect('cons[Nat] 0 nil[Nat]').to parse.as cons(nat, zero, empty(nat))
+    end
+
+    example do
+      expect('isnil[Nat] nil[Nat]').to parse.as is_nil(nat, empty(nat))
+    end
+
+    example do
+      expect('head[Nat] cons[Nat] 0 nil[Nat]').to parse.as head(nat, cons(nat, zero, empty(nat)))
+    end
+
+    example do
+      expect('tail[Nat] cons[Nat] 0 nil[Nat]').to parse.as tail(nat, cons(nat, zero, empty(nat)))
+    end
   end
 end
