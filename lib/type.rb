@@ -7,6 +7,7 @@ module Type
 
   Boolean = Object.new
   Function = Struct.new(:input, :output)
+  List = Struct.new(:type)
   NaturalNumber = Object.new
   Product = Struct.new(:first, :second)
   Record = Struct.new(:fields)

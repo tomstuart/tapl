@@ -9,6 +9,10 @@ module TypeHelpers
     Builder.new.build_type_function(input, output)
   end
 
+  def list(type)
+    Builder.new.build_type_list(type)
+  end
+
   def nat
     Builder.new.build_type_natural_number
   end

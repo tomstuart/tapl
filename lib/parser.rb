@@ -372,6 +372,8 @@ class Parser
       parse_type_natural_number
     elsif can_read? %r{Unit}
       parse_type_unit
+    elsif can_read? %r{List}
+      parse_type_list
     else
       complain
     end
@@ -445,6 +447,13 @@ class Parser
     read %r{>}
 
     builder.build_type_variant(fields)
+  end
+
+  def parse_type_list
+    read %r{List}
+    type = parse_type
+
+    builder.build_type_list(type)
   end
 
   def read_name

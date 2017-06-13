@@ -149,4 +149,8 @@ class Builder
   def build_type_variant(fields)
     Type::Variant.new(fields)
   end
+
+  def build_type_list(type)
+    Type::List.new(type)
+  end
 end

@@ -358,4 +358,10 @@ RSpec.describe 'parsing' do
       expect('letrec iseven:Nat → Bool = λx:Nat.if iszero x then true else if iszero (pred x) then false else iseven (pred (pred x)) in iseven (succ (succ (succ 0)))').to parse.as letrec(:iseven, func(nat, bool), abs(:x, nat, cond(is_zero(var(:x)), tru, cond(is_zero(pred(var(:x))), fls, app(var(:iseven), pred(pred(var(:x))))))), app(var(:iseven), succ(succ(succ(zero)))))
     end
   end
+
+  describe 'lists' do
+    example do
+      expect('List Nat').to parse.as list(nat)
+    end
+  end
 end
