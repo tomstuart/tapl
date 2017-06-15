@@ -320,4 +320,62 @@ RSpec.describe 'typechecking' do
       expect('letrec iseven:Nat → Bool = λx:Nat.if iszero x then true else if iszero (pred x) then false else iseven (pred (pred x)) in iseven (succ (succ (succ 0)))').to typecheck.as('Bool')
     end
   end
+
+  describe 'lists' do
+    example do
+      expect('nil[Nat]').to typecheck.as('List Nat')
+    end
+
+    example do
+      expect('cons[Bool] true cons[Bool] false nil[Bool]').to typecheck.as('List Bool')
+    end
+
+    example do
+      expect('cons[Bool] 0 cons[Bool] false nil[Bool]').not_to typecheck
+    end
+
+    example do
+      expect('cons[Bool] true cons[Nat] 0 nil[Nat]').not_to typecheck
+    end
+
+    example do
+      expect('cons[Bool] true false').not_to typecheck
+    end
+
+    example do
+      expect('isnil[Nat] cons[Nat] 0 nil[Nat]').to typecheck.as('Bool')
+    end
+
+    example do
+      expect('isnil[Nat] cons[Bool] false nil[Bool]').not_to typecheck
+    end
+
+    example do
+      expect('isnil[Nat] 0').not_to typecheck
+    end
+
+    example do
+      expect('head[Nat] cons[Nat] (succ 0) cons[Nat] 0 nil[Nat]').to typecheck.as('Nat')
+    end
+
+    example do
+      expect('tail[Nat] cons[Nat] (succ 0) cons[Nat] 0 nil[Nat]').to typecheck.as('List Nat')
+    end
+
+    example do
+      expect('head[Nat] cons[Bool] true nil[Bool]').not_to typecheck
+    end
+
+    example do
+      expect('tail[Nat] cons[Bool] true nil[Bool]').not_to typecheck
+    end
+
+    example do
+      expect('head[Nat] 0').not_to typecheck
+    end
+
+    example do
+      expect('tail[Nat] 0').not_to typecheck
+    end
+  end
 end

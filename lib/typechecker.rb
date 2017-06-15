@@ -27,6 +27,12 @@ module Typechecker
       right_type = type_of(term.right_term, context.extend(term.right_name, sum_type.right))
       raise Error, "#{term.left_term} and #{term.right_term} have mismatching types" unless left_type == right_type
       left_type
+    when Term::Cons
+      head_type = type_of(term.head, context)
+      tail_type = type_of(term.tail, context)
+      raise Error, "#{term.tail} isn’t a list" unless tail_type.is_a?(Type::List)
+      raise Error, "#{term.head} isn’t a #{tail_type.type}" unless head_type == tail_type.type
+      tail_type
     when Term::False, Term::True
       Type::Boolean
     when Term::Fix
@@ -34,6 +40,11 @@ module Typechecker
       raise Error, "#{term.term} isn’t a function" unless function_type.is_a?(Type::Function)
       raise Error, "#{term.term} has mismatched input and output types" unless function_type.input == function_type.output
       function_type.input
+    when Term::Head
+      term_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a list" unless term_type.is_a?(Type::List)
+      raise Error, "#{term.term} isn’t a list of #{term.type}" unless term_type.type == term.type
+      term_type.type
     when Term::If
       condition_type = type_of(term.condition, context)
       consequent_type = type_of(term.consequent, context)
@@ -53,6 +64,11 @@ module Typechecker
         end
       raise Error, "#{term.term} isn’t a #{expected_type}" unless term_type == expected_type
       term.type
+    when Term::IsNil
+      term_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a list" unless term_type.is_a?(Type::List)
+      raise Error, "#{term.term} isn’t a list of #{term.type}" unless term_type.type == term.type
+      Type::Boolean
     when Term::IsZero
       term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a natural number" unless term_type == Type::NaturalNumber
@@ -66,6 +82,8 @@ module Typechecker
       type_of(term.body, context.extend(term.definition_name, definition_type))
     when Term::LetRec
       type_of(Term.desugar(term), context)
+    when Term::Nil
+      Type::List.new(term.type)
     when Term::Pair
       first_type = type_of(term.first, context)
       second_type = type_of(term.second, context)
@@ -110,6 +128,11 @@ module Typechecker
       term_type = type_of(term.term, context)
       raise Error, "#{term.term} isn’t a #{field.type}" unless term_type == field.type
       term.type
+    when Term::Tail
+      term_type = type_of(term.term, context)
+      raise Error, "#{term.term} isn’t a list" unless term_type.is_a?(Type::List)
+      raise Error, "#{term.term} isn’t a list of #{term.type}" unless term_type.type == term.type
+      term_type
     when Term::Tuple
       types = term.terms.map { |term| type_of(term, context) }
       Type::Tuple.new(types)
